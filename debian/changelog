@@ -1,0 +1,174 @@
+capnproto (0.7.0-7) unstable; urgency=medium
+
+  * Disable failing test when interface is IPv6-only (Closes: #963855)
+    Thank you to Dominic Hargreaves for the bug report and instructions
+    for how to reproduce the bug.
+
+ -- tony mancill <tmancill@debian.org>  Mon, 06 Jul 2020 11:52:29 -0700
+
+capnproto (0.7.0-6) unstable; urgency=medium
+
+  * Apply patch for FTBFS on s390x (Closes: #955544)
+    Thank you to Michał Sawicz for the bug report and patch.
+  * Bump Standards-Version to 4.5.0
+  * Specify debhelper compat 12 via debhelper-compat dependency
+  * Specify "Rules-Requires-Root: no" in debian/control
+
+ -- tony mancill <tmancill@debian.org>  Thu, 02 Apr 2020 21:15:54 -0700
+
+capnproto (0.7.0-5) unstable; urgency=medium
+
+  [ Gianfranco Costamagna ]
+  * Fix autopkgtest failure with asneeded gcc-9 default flag,
+    by moving order of link line (Closes: #939821)
+
+  [ tony mancill ]
+  * Add cmake to debian/tests/control
+  * Use debhelper 12
+  * Add patch for typos in source
+
+ -- tony mancill <tmancill@debian.org>  Tue, 10 Sep 2019 20:29:14 -0700
+
+capnproto (0.7.0-4) unstable; urgency=medium
+
+  [ Tom Lee ]
+  * Add a few simple compile + link integration tests
+
+  [ tony mancill ]
+  * Update Build-Depends to python3-all (Closes: #936272)
+  * Bump Standards-Version to 4.4.0
+  * Add myself to Uploaders
+
+ -- tony mancill <tmancill@debian.org>  Wed, 04 Sep 2019 13:12:33 -0700
+
+capnproto (0.7.0-3) unstable; urgency=medium
+
+  * Add missing binaries (Closes: #919180)
+  * Rename a patch file from the earlier NMU
+
+ -- Tom Lee <debian@tomlee.co>  Tue, 05 Feb 2019 01:13:51 -0800
+
+capnproto (0.7.0-2.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+
+  [ Dimitri John Ledkov ]
+  * Workaround generating invalid CapnProtoConfig which is not multiarch
+    cmake aware, and thus yields invalid bin and include paths.
+    Closes: #920230
+
+ -- Andreas Tille <tille@debian.org>  Wed, 30 Jan 2019 08:51:06 +0100
+
+capnproto (0.7.0-2) unstable; urgency=medium
+
+  * Add a .gitignore file to packaging
+  * Disable a few broken tests on kfreebsd archs
+
+ -- Tom Lee <debian@tomlee.co>  Sun, 30 Dec 2018 05:32:44 -0800
+
+capnproto (0.7.0-1) unstable; urgency=medium
+
+  * Import Upstream version 0.7.0
+  * Fix minor typo in src/kj/filesystem.c++
+  * Updated to Standards-Version 4.2.1
+  * Bump debian/compat to 11
+  * Address some pedantic lintian issues
+  * Add a quick functional test
+  * Add Multi-Arch headers (Closes: #905351)
+
+ -- Tom Lee <debian@tomlee.co>  Sat, 22 Dec 2018 15:58:08 -0700
+
+capnproto (0.6.1-1) unstable; urgency=medium
+
+  * Imported Upstream version 0.6.1 (Closes: #866525) which includes:
+     - a fix for CVE-2017-7892 (Closes: #860960)
+     - a fix for broken GCC 7 builds (Closes: #853342, #853539)
+     - a possible fix for the hurd-i386 FTBFS in #804122
+  * MultiArch support (Closes: #809065)
+  * Clean up some Lintian gripes
+  * Updated to debhelper 9, Standards-Version 4.0.0
+  * License in debian/copyright changed from BSD-2-clause to MIT
+
+ -- Tom Lee <debian@tomlee.co>  Sat, 26 Aug 2017 10:54:20 -0700
+
+capnproto (0.5.3-2) unstable; urgency=medium
+
+  * Copyright notice updated on upstream's request
+  * Fix test breakages on powerpc (Closes: #804112)
+
+ -- Tom Lee <debian@tomlee.co>  Fri, 06 Nov 2015 17:32:09 -0800
+
+capnproto (0.5.3-1) unstable; urgency=medium
+
+  * Backporting final IOV_MAX patch accepted upstream
+  * Add patch for hppa FTBFS (Closes: #781787)
+  * Fix mipsel/powerpc/ppc64el FTBFS (Closes: #790571)
+  * Imported Upstream version 0.5.3
+  * Update packaging for 0.5.3
+  * Fix dep5-copyright-license-name-not-unique lintian warning
+
+ -- Tom Lee <debian@tomlee.co>  Fri, 30 Oct 2015 23:49:29 -0700
+
+capnproto (0.5.2-2) unstable; urgency=low
+
+  * Enable parallel builds
+  * Drop postinst/postrm scripts, dh_makeshlibs adds ldconfig
+  * Attempt to fix GNU/Hurd FTBFS
+  * Update .gitignore
+  * Add support for cmake *Config files
+
+ -- Tom Lee <debian@tomlee.co>  Sat, 09 May 2015 02:13:59 -0700
+
+capnproto (0.5.2-1) unstable; urgency=low
+
+  * Imported Upstream version 0.5.2
+  * Remove the (now unnecessary) MIPS NaN patch
+  * Update Standards-Version to 3.9.6
+  * Verbose output for dh_auto_test
+  * Fix the watch file URL
+  * Update Homepage in debian/control
+
+ -- Tom Lee <debian@tomlee.co>  Sun, 03 May 2015 00:49:25 -0700
+
+capnproto (0.4.1-3) unstable; urgency=high
+
+  * Fix CVE-2015-2310: Integer overflow in pointer validation (Closes: 780565)
+  * Fix CVE-2015-2311: Integer underflow in pointer validation (Closes: 780566)
+  * Fix CVE-2015-2312: CPU usage amplification attack (Closes: 780567)
+  * Fix CVE-2015-2313: CPU usage amplification attack #2 (Closes: 780568)
+
+ -- Tom Lee <debian@tomlee.co>  Tue, 17 Mar 2015 19:53:24 -0800
+
+capnproto (0.4.1-2) unstable; urgency=low
+
+  * Applying upstream patch for NaN on mips64el (Closes: 743402)
+
+ -- Tom Lee <debian@tomlee.co>  Tue, 29 Apr 2014 01:06:24 -0700
+
+capnproto (0.4.1-1) unstable; urgency=low
+
+  * Applying a downstream patch for ppc64el (Closes: 735232)
+  * Install capnp.pc and capnp-rpc.pc to the correct location
+  * Imported Upstream version 0.4.1
+
+ -- Tom Lee <debian@tomlee.co>  Wed, 09 Apr 2014 12:00:31 -0700
+
+capnproto (0.4.0-1) unstable; urgency=low
+
+  * Updated packaging, include libkj-async and libcapnp-rpc.
+  * Imported Upstream version 0.4.0
+
+ -- Tom Lee <debian@tomlee.co>  Sun, 15 Dec 2013 10:41:21 -0700
+
+capnproto (0.3.0-1) unstable; urgency=low
+
+  * Fix Vcs-Git URL
+  * Imported Upstream version 0.3.0
+
+ -- Tom Lee <debian@tomlee.co>  Wed, 13 Nov 2013 12:45:02 -0700
+
+capnproto (0.2.1-1) unstable; urgency=low
+
+  * Initial release (Closes: #719782)
+
+ -- Tom Lee <debian@tomlee.co>  Tue, 20 Aug 2013 00:18:16 -0700

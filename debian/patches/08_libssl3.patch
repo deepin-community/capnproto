@@ -1,0 +1,67 @@
+Description: support openssl 3.0
+Author: Tom Lee <debian@tomlee.co>
+Bug-Debian: https://bugs.debian.org/1006299
+Forwarded: https://github.com/capnproto/capnproto/pull/1434
+Last-Update: 2022-03-06
+
+--- a/src/kj/compat/tls.c++
++++ b/src/kj/compat/tls.c++
+@@ -361,6 +361,18 @@
+     switch (cmd) {
+       case BIO_CTRL_FLUSH:
+         return 1;
++      case BIO_CTRL_INFO:
++      case BIO_CTRL_EOF:
++        // Queries for info and EOF
++        return 0;
++#if OPENSSL_VERSION_NUMBER >= 0x30000000L && \
++        !defined(OPENSSL_IS_BORINGSSL) && \
++        !defined(OPENSSL_NO_KTLS)
++      case BIO_CTRL_GET_KTLS_SEND:
++      case BIO_CTRL_GET_KTLS_RECV:
++        // Queries to determine if our BIO supports KTLS
++        return 0;
++#endif
+       case BIO_CTRL_PUSH:
+       case BIO_CTRL_POP:
+         // Informational?
+--- a/src/kj/compat/tls-test.c++
++++ b/src/kj/compat/tls-test.c++
+@@ -682,17 +682,26 @@
+   KJ_EXPECT_THROW_MESSAGE(message, clientPromise.wait(test.io.waitScope));
+ }
+ 
++// OpenSSL 3.0 changed error messages
++#if OPENSSL_VERSION_NUMBER >= 0x30000000L && !defined(OPENSSL_IS_BORINGSSL)
++#define SSL_MESSAGE(v11, v30) v30
++#else
++#define SSL_MESSAGE(v11, v30) v11
++#endif
++
+ KJ_TEST("TLS certificate validation") {
+   expectInvalidCert("wrong.com", TlsCertificate(kj::str(VALID_CERT, INTERMEDIATE_CERT)),
+-                    "Hostname mismatch");
++                    SSL_MESSAGE("Hostname mismatch", "hostname mismatch"));
+   expectInvalidCert("example.com", TlsCertificate(VALID_CERT),
+                     "unable to get local issuer certificate");
+   expectInvalidCert("example.com", TlsCertificate(kj::str(EXPIRED_CERT, INTERMEDIATE_CERT)),
+                     "certificate has expired");
+   expectInvalidCert("example.com", TlsCertificate(SELF_SIGNED_CERT),
+-                    "self signed certificate");
++                    SSL_MESSAGE("self signed certificate", "self-signed certificate"));
+ }
+ 
++#undef SSL_MESSAGE
++
+ // BoringSSL seems to print error messages differently.
+ #ifdef OPENSSL_IS_BORINGSSL
+ #define SSL_MESSAGE(interesting, boring) boring
+@@ -826,6 +835,8 @@
+   }
+ }
+ 
++#undef SSL_MESSAGE
++
+ class MockConnectionReceiver final: public ConnectionReceiver {
+   // This connection receiver allows mocked async connection establishment without the network.
+ 

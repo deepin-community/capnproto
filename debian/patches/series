@@ -5,3 +5,4 @@
 07_libatomic.patch
 08_libssl3.patch
 fix-gcc13.patch
+CVE-2026-32239_CVE-2026-32240.patch
